@@ -13,7 +13,8 @@ class ProductCreate(BaseModel):
     precio_venta: float
     #fecha_caducidad: date
 
-class ProductOut(BaseModel):     
+class ProductOut(BaseModel):
+    codigo: str
     nombre: str
     cantidad_disponible: int
     costo_adquisicion: float
