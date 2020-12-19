@@ -11,12 +11,8 @@ api = FastAPI()
 
 origins = [
     "http://localhost.tiangolo.com", "https://localhost.tiangolo.com",
-<<<<<<< HEAD
-    "http://localhost", "http://localhost:8080", "https://mygicapp.herokuapp.com",
-=======
     "http://localhost", "http://localhost:8080",
     "http://127.0.0.1:8000", "https://mygicapp.herokuapp.com",
->>>>>>> ba9955a67ad7d905c7b3cf1d55948f137b0b3dd7
     "https://app-mygic.herokuapp.com"
 ]
 
@@ -51,7 +47,7 @@ async def get_producto(codigo: str):
     product_out = ProductOut(**product_in_db.dict())
 
     return product_out
-<<<<<<< HEAD
+
 
 @api.put("/product/")
 async def update_product(product_create: ProductCreate):
@@ -74,7 +70,5 @@ async def delete_product_codigo(codigo: str):
     product_deleted = delete_product(codigo)
 
     return ProductOut(**product_deleted.dict())
-
     
-=======
->>>>>>> ba9955a67ad7d905c7b3cf1d55948f137b0b3dd7
+
