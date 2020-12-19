@@ -32,3 +32,6 @@ def delete_product(codigo_producto:str):
         return product_delete        
     else:
         return None
+
+def get_all_products():
+    return database_products.values()

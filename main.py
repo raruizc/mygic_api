@@ -11,12 +11,13 @@ api = FastAPI()
 
 origins = [
     "http://localhost.tiangolo.com", "https://localhost.tiangolo.com",
-    "http://localhost", "http://localhost:8080",
-    "http://127.0.0.1:8000"
+    "http://localhost", "http://localhost:8080", "https://mygicapp.herokuapp.com",
+    "https://app-mygic.herokuapp.com"
 ]
+
 api.add_middleware(
     CORSMiddleware, allow_origins=origins,
-    allow_credentials=False, allow_methods=["*"], allow_headers=["*"],
+    allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
 
 @api.post("/product/")
@@ -28,14 +29,14 @@ async def create_product(product_create: ProductCreate):
         raise HTTPException(status_code= 400, detail= "El producto ya existe")
     
     producto_guardado = save_product(ProductsInDB(**product_create.dict()))
-    
+    producto = ProductOut(**producto_guardado.dict())
     #product_saved = save_product(ProductsInDB(**product_creado.dict()))
-    return ProductOut(**producto_guardado.dict())
+    return producto
 
 
 
 @api.get("/product/{codigo}")
-async def get_balance(codigo: str):
+async def get_producto(codigo: str):
 
     product_in_db = get_product(codigo)
 
@@ -45,3 +46,27 @@ async def get_balance(codigo: str):
     product_out = ProductOut(**product_in_db.dict())
 
     return product_out
+
+@api.put("/product/")
+async def update_product(product_create: ProductCreate):
+    product_in_db = get_product(product_create.codigo)
+
+    if product_in_db == None:
+        raise HTTPException(status_code=404, detail="El producto no encontrado")
+
+    product_updated = save_product(ProductsInDB(**product_create.dict()))
+
+    return ProductOut(**product_updated.dict())
+
+@api.delete("/product/{codigo}")
+async def delete_product_codigo(codigo: str):
+    product_in_db = get_product(codigo)
+
+    if product_in_db == None:
+        raise HTTPException(status_code=404, detail="El producto no encontrado")
+
+    product_deleted = delete_product(codigo)
+
+    return ProductOut(**product_deleted.dict())
+
+    
